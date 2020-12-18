@@ -501,4 +501,69 @@ defmodule Kickstart.AccountsTest do
       refute inspect(%User{password: "123456"}) =~ "password: \"123456\""
     end
   end
+
+  describe "pricing_plans" do
+    alias Kickstart.Accounts.PricingPlan
+
+    @valid_attrs %{description: "some description", name: "some name", period: "some period", price: "120.5"}
+    @update_attrs %{description: "some updated description", name: "some updated name", period: "some updated period", price: "456.7"}
+    @invalid_attrs %{description: nil, name: nil, period: nil, price: nil}
+
+    def pricing_plan_fixture(attrs \\ %{}) do
+      {:ok, pricing_plan} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Accounts.create_pricing_plan()
+
+      pricing_plan
+    end
+
+    test "list_pricing_plans/0 returns all pricing_plans" do
+      pricing_plan = pricing_plan_fixture()
+      assert Accounts.list_pricing_plans() == [pricing_plan]
+    end
+
+    test "get_pricing_plan!/1 returns the pricing_plan with given id" do
+      pricing_plan = pricing_plan_fixture()
+      assert Accounts.get_pricing_plan!(pricing_plan.id) == pricing_plan
+    end
+
+    test "create_pricing_plan/1 with valid data creates a pricing_plan" do
+      assert {:ok, %PricingPlan{} = pricing_plan} = Accounts.create_pricing_plan(@valid_attrs)
+      assert pricing_plan.description == "some description"
+      assert pricing_plan.name == "some name"
+      assert pricing_plan.period == "some period"
+      assert pricing_plan.price == Decimal.new("120.5")
+    end
+
+    test "create_pricing_plan/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Accounts.create_pricing_plan(@invalid_attrs)
+    end
+
+    test "update_pricing_plan/2 with valid data updates the pricing_plan" do
+      pricing_plan = pricing_plan_fixture()
+      assert {:ok, %PricingPlan{} = pricing_plan} = Accounts.update_pricing_plan(pricing_plan, @update_attrs)
+      assert pricing_plan.description == "some updated description"
+      assert pricing_plan.name == "some updated name"
+      assert pricing_plan.period == "some updated period"
+      assert pricing_plan.price == Decimal.new("456.7")
+    end
+
+    test "update_pricing_plan/2 with invalid data returns error changeset" do
+      pricing_plan = pricing_plan_fixture()
+      assert {:error, %Ecto.Changeset{}} = Accounts.update_pricing_plan(pricing_plan, @invalid_attrs)
+      assert pricing_plan == Accounts.get_pricing_plan!(pricing_plan.id)
+    end
+
+    test "delete_pricing_plan/1 deletes the pricing_plan" do
+      pricing_plan = pricing_plan_fixture()
+      assert {:ok, %PricingPlan{}} = Accounts.delete_pricing_plan(pricing_plan)
+      assert_raise Ecto.NoResultsError, fn -> Accounts.get_pricing_plan!(pricing_plan.id) end
+    end
+
+    test "change_pricing_plan/1 returns a pricing_plan changeset" do
+      pricing_plan = pricing_plan_fixture()
+      assert %Ecto.Changeset{} = Accounts.change_pricing_plan(pricing_plan)
+    end
+  end
 end

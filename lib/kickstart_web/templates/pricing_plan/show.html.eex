@@ -1,0 +1,28 @@
+<h1>Show Pricing plan</h1>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @pricing_plan.name %>
+  </li>
+
+  <li>
+    <strong>Price:</strong>
+    <%= @pricing_plan.price %>
+  </li>
+
+  <li>
+    <strong>Period:</strong>
+    <%= @pricing_plan.period %>
+  </li>
+
+  <li>
+    <strong>Description:</strong>
+    <%= @pricing_plan.description %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.pricing_plan_path(@conn, :edit, @pricing_plan) %></span>
+<span><%= link "Back", to: Routes.pricing_plan_path(@conn, :index) %></span>

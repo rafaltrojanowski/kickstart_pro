@@ -572,10 +572,159 @@ defmodule Kickstart.Accounts do
     |> paginate(Repo, params, @pagination)
   end
 
+  alias Kickstart.Accounts.PricingPlan
+
+  @doc """
+  Returns the list of pricing_plans.
+
+  ## Examples
+
+      iex> list_pricing_plans()
+      [%PricingPlan{}, ...]
+
+  """
+  def list_pricing_plans do
+    Repo.all(PricingPlan)
+  end
+
+  @doc """
+  Gets a single pricing_plan.
+
+  Raises `Ecto.NoResultsError` if the Pricing plan does not exist.
+
+  ## Examples
+
+      iex> get_pricing_plan!(123)
+      %PricingPlan{}
+
+      iex> get_pricing_plan!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_pricing_plan!(id), do: Repo.get!(PricingPlan, id)
+
+  @doc """
+  Creates a pricing_plan.
+
+  ## Examples
+
+      iex> create_pricing_plan(%{field: value})
+      {:ok, %PricingPlan{}}
+
+      iex> create_pricing_plan(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_pricing_plan(attrs \\ %{}) do
+    %PricingPlan{}
+    |> PricingPlan.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a pricing_plan.
+
+  ## Examples
+
+      iex> update_pricing_plan(pricing_plan, %{field: new_value})
+      {:ok, %PricingPlan{}}
+
+      iex> update_pricing_plan(pricing_plan, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_pricing_plan(%PricingPlan{} = pricing_plan, attrs) do
+    pricing_plan
+    |> PricingPlan.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a pricing_plan.
+
+  ## Examples
+
+      iex> delete_pricing_plan(pricing_plan)
+      {:ok, %PricingPlan{}}
+
+      iex> delete_pricing_plan(pricing_plan)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_pricing_plan(%PricingPlan{} = pricing_plan) do
+    Repo.delete(pricing_plan)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking pricing_plan changes.
+
+  ## Examples
+
+      iex> change_pricing_plan(pricing_plan)
+      %Ecto.Changeset{data: %PricingPlan{}}
+
+  """
+  def change_pricing_plan(%PricingPlan{} = pricing_plan, attrs \\ %{}) do
+    PricingPlan.changeset(pricing_plan, attrs)
+  end
+
+  @doc """
+  Paginate the list of pricing plans using filtrex
+  filters.
+
+  ## Examples
+
+      iex> list_pricing_plans(%{})
+      %{pricing_plans: [%PricingPlan{}], ...}
+  """
+  @spec paginate_pricing_plans(map) :: {:ok, map} | {:error, any}
+  def paginate_pricing_plans(params \\ %{}) do
+    params =
+      params
+      |> Map.put_new("sort_direction", "desc")
+      |> Map.put_new("sort_field", "inserted_at")
+
+    {:ok, sort_direction} = Map.fetch(params, "sort_direction")
+    {:ok, sort_field} = Map.fetch(params, "sort_field")
+
+    with {:ok, filter} <- Filtrex.parse_params(filter_config(:pricing_plans), params["pricing_plan"] || %{}),
+        %Scrivener.Page{} = page <- do_paginate_pricing_plans(filter, params) do
+      {:ok,
+        %{
+          pricing_plans: page.entries,
+          page_number: page.page_number,
+          page_size: page.page_size,
+          total_pages: page.total_pages,
+          total_entries: page.total_entries,
+          distance: @pagination_distance,
+          sort_field: sort_field,
+          sort_direction: sort_direction
+        }
+      }
+    else
+      {:error, error} -> {:error, error}
+      error -> {:error, error}
+    end
+  end
+
+  defp do_paginate_pricing_plans(filter, params) do
+    PricingPlan
+    |> Filtrex.query(filter)
+    |> order_by(^sort(params))
+    |> paginate(Repo, params, @pagination)
+  end
+
+  defp filter_config(:pricing_plans) do
+    defconfig do
+      text :name
+    end
+  end
+
   defp filter_config(:users) do
     defconfig do
       date(:confirmed_at)
       text(:email)
     end
   end
+
 end
