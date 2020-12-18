@@ -1,24 +1,22 @@
-<h1>Listing Pricing plans</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Price</th>
-      <th>Period</th>
-      <th>Description</th>
-
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-<%= for pricing_plan <- @pricing_plans do %>
-    <tr>
-      <td><%= pricing_plan.name %></td>
-      <td><%= pricing_plan.price %></td>
-      <td><%= pricing_plan.period %></td>
-      <td><%= pricing_plan.description %></td>
-    </tr>
-<% end %>
-  </tbody>
-</table>
+<div class="card-deck">
+  <%= for pricing_plan <- @pricing_plans do %>
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title"><%= pricing_plan.name %></h5>
+        <h1 class="card-title">$<%= pricing_plan.price %><span> /<%= pricing_plan.period %></span></h1>
+        <p class="card-text">
+          <ul>
+            <%= for li <- Enum.map(String.split(pricing_plan.description, ";"), fn x -> x end) do %>
+              <li><%= li %></li>
+            <% end %>
+          </ul>
+        </p>
+      </div>
+      <div class="card-footer">
+        <button class="btn btn-primary">
+        Subscribe
+        </button>
+      </div>
+    </div>
+  <% end %>
+</div>
