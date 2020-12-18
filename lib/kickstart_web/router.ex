@@ -20,6 +20,7 @@ defmodule KickstartWeb.Router do
     pipe_through [:browser, :require_authenticated_admin]
     resources "/posts", PostController
     resources "/users", UserController
+    resources "/plans", PricingPlanController
     resources "/", DashboardController
   end
 
@@ -35,6 +36,7 @@ defmodule KickstartWeb.Router do
 
     get "/", PageController, :index
     resources "/posts", PostController, param: "slug", only: [:index, :show]
+    resources "/plans", PricingPlanController, only: [:index]
   end
 
   # Other scopes may use custom stacks.
