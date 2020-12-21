@@ -13,9 +13,7 @@
         </p>
       </div>
       <div class="card-footer">
-        <button class="btn btn-primary">
-        Subscribe
-        </button>
+        <%= link "Subscribe", to: Routes.subscription_path(@conn, :new, pricing_plan_id: pricing_plan.id), class: "btn btn-primary" %>
       </div>
     </div>
   <% end %>

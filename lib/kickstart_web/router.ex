@@ -37,6 +37,7 @@ defmodule KickstartWeb.Router do
     get "/", PageController, :index
     resources "/posts", PostController, param: "slug", only: [:index, :show]
     resources "/plans", PricingPlanController, only: [:index]
+    resources "/subscriptions", SubscriptionController, only: [:new, :create]
   end
 
   # Other scopes may use custom stacks.
