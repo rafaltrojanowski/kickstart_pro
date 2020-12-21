@@ -43,6 +43,14 @@ config :ueberauth, Ueberauth.Strategy.Google.OAuth,
   client_id: System.get_env("GOOGLE_CLIENT_ID"),
   client_secret: System.get_env("GOOGLE_CLIENT_SECRET")
 
+# Payments with Stripe
+config :gringotts, Gringotts.Gateways.Stripe,
+  adapter: Gringotts.Gateways.Stripe,
+  secret_key: System.get_env("STRIPE_SECRET_KEY"),
+  default_currency: "USD"
+
+config :ex_money, default_cldr_backend: Kickstart.Cldr
+
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
