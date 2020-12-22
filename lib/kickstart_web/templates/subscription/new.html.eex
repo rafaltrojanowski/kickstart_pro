@@ -1,7 +1,8 @@
 <div class="container">
   <div class="py-5 text-center">
     <h2>Checkout</h2>
-    <p class="lead"></p>
+    <p class="lead">
+    </p>
   </div>
 
   <div class="row">
@@ -31,7 +32,14 @@
     </div>
     <div class="col-md-8 order-md-1">
       <h4 class="mb-3">Payment</h4>
-      <%= form_for @conn, Routes.subscription_path(@conn, :create), [class: "needs-validation", as: :subscription], fn f -> %>
+      <%= form_for @changeset, Routes.subscription_path(@conn, :create), [class: "needs-validation", as: :subscription], fn f -> %>
+
+        <%= if @changeset.action do %>
+          <div class="alert alert-danger">
+            Oops, something went wrong! Please check the errors below
+          </div>
+        <% end %>
+
         <div class="d-block my-3">
           <div class="custom-control custom-radio">
             <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked required>
@@ -42,11 +50,13 @@
           <div class="col-md-6 mb-3">
             <label for="cc-name">First Name</label>
             <%= text_input f, :first_name, class: "form-control" %>
+            <%= error_tag f, :first_name %>
           </div>
 
           <div class="col-md-6 mb-3">
             <label for="cc-name">Last name</label>
             <%= text_input f, :last_name, class: "form-control" %>
+            <%= error_tag f, :last_name %>
           </div>
         </div>
 
@@ -54,21 +64,27 @@
           <div class="col-md-6 mb-3">
             <label for="cc-number">Credit card number</label>
             <%= text_input f, :number, class: "form-control" %>
+            <%= error_tag f, :number %>
           </div>
 
           <div class="col-md-2 mb-3">
             <label for="cc-expiration">Year</label>
             <%= text_input f, :year, class: "form-control" %>
+            <%= error_tag f, :year %>
           </div>
           <div class="col-md-2 mb-3">
-          <label for="cc-expiration">Month</label>
-          <%= text_input f, :month, class: "form-control" %>
+            <label for="cc-expiration">Month</label>
+            <%= text_input f, :month, class: "form-control" %>
+            <%= error_tag f, :month %>
           </div>
           <div class="col-md-2 mb-3">
             <label for="cc-expiration">CVV</label>
             <%= text_input f, :verification_code, class: "form-control" %>
+            <%= error_tag f, :verification_code %>
           </div>
         </div>
+
+        <%= hidden_input f, :pricing_plan_id, value: @pricing_plan.id %>
 
         <hr class="mb-4">
 
