@@ -2,6 +2,8 @@ defmodule KickstartWeb.SubscriptionController do
   use KickstartWeb, :controller
 
   alias Kickstart.Accounts
+  alias Kickstart.Accounts.Subscription
+  alias Kickstart.Repo
 
   alias Gringotts.Gateways.Stripe
   alias Gringotts.CreditCard
@@ -23,8 +25,6 @@ defmodule KickstartWeb.SubscriptionController do
 
   def create(conn, %{"subscription" => subscription_params}) do
     pricing_plan = Accounts.get_pricing_plan!(subscription_params["pricing_plan_id"])
-
-    # Validation
     data  = %{}
     types = %{first_name: :string, last_name: :string, number: :string, year: :string, month: :string, verification_code: :string}
 
@@ -42,25 +42,33 @@ defmodule KickstartWeb.SubscriptionController do
         month: subscription_params["month"] |> String.to_integer,
         verification_code:  subscription_params["verification_code"]
       }
-      IO.inspect(card)
-      # TODO: Take a value from Pricing Plan here:
-      amount = Money.new(19, :USD)
-      IO.inspect(amount)
-
-      value = Gringotts.purchase(Stripe, amount, card)
+      amount = Money.new(pricing_plan.price, :USD)
+      response = Gringotts.purchase(Stripe, amount, card)
 
       cond do
-        value["created"] ->
-          IO.inspect("SUCCESS")
-          IO.inspect(value)
+        response["created"] ->
+          create_subscription(conn.assigns.current_user, pricing_plan, response)
           render(conn, "success.html")
-        value["error"] ->
-          IO.inspect("ERROR")
-          IO.inspect(value)
+        response["error"] ->
+          IO.inspect(response)
           render(conn, "error.html")
       end
     else
       render(conn, "new.html", pricing_plan: pricing_plan, changeset: %{changeset | action: :insert})
     end
+  end
+
+  defp create_subscription(user, pricing_plan, data) do
+    time_now = NaiveDateTime.utc_now |> NaiveDateTime.truncate(:second)
+    end_at = Timex.shift(time_now, months: 1)
+
+    %Subscription{
+      user: user,
+      pricing_plan: pricing_plan,
+      start_at: time_now,
+      end_at: end_at,
+      status: "paid",
+      payment_response: data}
+    |> Repo.insert
   end
 end

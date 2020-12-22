@@ -52,7 +52,8 @@ defmodule Kickstart.MixProject do
       {:ueberauth_facebook, "~> 0.8"},
       {:ueberauth_google, "~> 0.10"},
       {:gringotts, "~> 1.1.0"},
-      {:ex_money, ">= 2.6.0"}
+      {:ex_money, ">= 2.6.0"},
+      {:timex, "~> 3.5"}
     ]
   end
 
