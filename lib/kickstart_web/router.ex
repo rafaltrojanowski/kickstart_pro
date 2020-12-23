@@ -22,6 +22,7 @@ defmodule KickstartWeb.Router do
     resources "/users", UserController
     resources "/plans", PricingPlanController
     resources "/subscriptions", SubscriptionController, only: [:show, :index]
+    resources "/faqs", FaqController
     resources "/", DashboardController
   end
 
@@ -39,6 +40,7 @@ defmodule KickstartWeb.Router do
     resources "/posts", PostController, param: "slug", only: [:index, :show]
     resources "/plans", PricingPlanController, only: [:index]
     resources "/subscriptions", SubscriptionController, only: [:new, :create]
+    resources "/faq", FaqController, only: [:index]
   end
 
   # Other scopes may use custom stacks.

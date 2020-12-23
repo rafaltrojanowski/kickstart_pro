@@ -1,0 +1,27 @@
+<section id="torch-toolbar">
+  <div class="torch-container">
+    <%= link "Edit", to: Routes.admin_faq_path(@conn, :edit, @faq), class: "torch-button" %>
+    <%= link "Back", to: Routes.admin_faq_path(@conn, :index), class: "torch-button" %>
+  </div>
+</section>
+
+<section id="torch-header-and-content">
+  <div class="torch-container">
+    <div class="header">
+      <h3>Faq Details</h3>
+    </div>
+    <ul>
+      
+        <li>
+          <div class="torch-show-label">Question:</div>
+          <div class="torch-show-data"><%= @faq.question %></div>
+        </li>
+      
+        <li>
+          <div class="torch-show-label">Answer:</div>
+          <div class="torch-show-data"><%= @faq.answer %></div>
+        </li>
+      
+    </ul>
+  </div>
+</section>
