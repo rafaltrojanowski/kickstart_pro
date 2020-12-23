@@ -1,19 +1,17 @@
-<div class="card-deck">
+<div class="card-deck mb-3 text-center">
   <%= for pricing_plan <- @pricing_plans do %>
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title"><%= pricing_plan.name %></h5>
-        <h1 class="card-title">$<%= pricing_plan.price %><span> /<%= pricing_plan.period %></span></h1>
-        <p class="card-text">
-          <ul>
-            <%= for li <- Enum.map(String.split(pricing_plan.description, ";"), fn x -> x end) do %>
-              <li><%= li %></li>
-            <% end %>
-          </ul>
-        </p>
+    <div class="card mb-4 shadow-sm">
+      <div class="card-header">
+        <h4 class="my-0 font-weight-normal"><%= pricing_plan.name %></h4>
       </div>
-      <div class="card-footer">
-        <%= link "Subscribe", to: Routes.subscription_path(@conn, :new, pricing_plan_id: pricing_plan.id), class: "btn btn-primary" %>
+      <div class="card-body">
+        <h1 class="card-title pricing-card-title">$<%= pricing_plan.price %> <small class="text-muted">/ <%= pricing_plan.period %></small></h1>
+        <ul class="list-unstyled mt-3 mb-4">
+          <%= for li <- Enum.map(String.split(pricing_plan.description, ";"), fn x -> x end) do %>
+            <li><%= li %></li>
+          <% end %>
+        </ul>
+        <%= link "Subscribe", to: Routes.subscription_path(@conn, :new, pricing_plan_id: pricing_plan.id), class: "btn btn-lg btn-block btn-outline-primary" %>
       </div>
     </div>
   <% end %>
