@@ -1,0 +1,12 @@
+Phoenix Kickstart Pro
+
+Features:
+* Bootstrap
+* FontAwesome
+* User Authentication
+* Blog
+* Pricing Plans Management
+* Subscriptions
+* Credit Card Payment with Stripe
+* FAQ
+* Admin Dashboard
