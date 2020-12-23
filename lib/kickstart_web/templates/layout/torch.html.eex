@@ -32,6 +32,9 @@
             <a href="/admin/plans">
               Plans
             </a>
+            <a href="/admin/subscriptions">
+              Subscriptions
+            </a>
           </nav>
         </div>
       </section>

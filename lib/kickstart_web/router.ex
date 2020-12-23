@@ -21,6 +21,7 @@ defmodule KickstartWeb.Router do
     resources "/posts", PostController
     resources "/users", UserController
     resources "/plans", PricingPlanController
+    resources "/subscriptions", SubscriptionController, only: [:show, :index]
     resources "/", DashboardController
   end
 
