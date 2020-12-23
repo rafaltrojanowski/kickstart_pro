@@ -5,7 +5,7 @@ defmodule Kickstart.Accounts do
 
   import Ecto.Query, warn: false
   alias Kickstart.Repo
-  alias Kickstart.Accounts.{User, UserToken, UserNotifier}
+  alias Kickstart.Accounts.{User, UserToken, UserNotifier, PricingPlan, Subscription}
 
 
   @doc """
@@ -575,8 +575,6 @@ defmodule Kickstart.Accounts do
     |> paginate(Repo, params, @pagination)
   end
 
-  alias Kickstart.Accounts.PricingPlan
-
   @doc """
   Returns the list of pricing_plans.
 
@@ -717,6 +715,45 @@ defmodule Kickstart.Accounts do
     |> paginate(Repo, params, @pagination)
   end
 
+  def get_subscription!(id), do: Repo.get!(Subscription, id)
+
+  def paginate_subscriptions(params \\ %{}) do
+    params =
+      params
+      |> Map.put_new("sort_direction", "desc")
+      |> Map.put_new("sort_field", "inserted_at")
+
+    {:ok, sort_direction} = Map.fetch(params, "sort_direction")
+    {:ok, sort_field} = Map.fetch(params, "sort_field")
+
+    with {:ok, filter} <- Filtrex.parse_params(filter_config(:subscriptions), params["subscription"] || %{}),
+        %Scrivener.Page{} = page <- do_paginate_subscriptions(filter, params) do
+      {:ok,
+        %{
+          subscriptions: page.entries,
+          page_number: page.page_number,
+          page_size: page.page_size,
+          total_pages: page.total_pages,
+          total_entries: page.total_entries,
+          distance: @pagination_distance,
+          sort_field: sort_field,
+          sort_direction: sort_direction
+        }
+      }
+    else
+      {:error, error} -> {:error, error}
+      error -> {:error, error}
+    end
+  end
+
+  defp do_paginate_subscriptions(filter, params) do
+    Subscription
+    |> Filtrex.query(filter)
+    |> order_by(^sort(params))
+    |> preload([:user, :pricing_plan])
+    |> paginate(Repo, params, @pagination)
+  end
+
   defp filter_config(:pricing_plans) do
     defconfig do
       text :name
@@ -730,4 +767,11 @@ defmodule Kickstart.Accounts do
     end
   end
 
+  defp filter_config(:subscriptions) do
+    defconfig do
+      date :start_at
+      date :end_at
+      text :status
+    end
+  end
 end
