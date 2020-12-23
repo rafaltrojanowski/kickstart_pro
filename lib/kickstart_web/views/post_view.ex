@@ -1,6 +1,18 @@
 defmodule KickstartWeb.PostView do
   use KickstartWeb, :view
 
+  # TODO: Get rid of duplication (see LayoutView)
+  def gravatar(email) do
+    hash = email
+      |> String.trim()
+      |> String.downcase()
+      |> :erlang.md5()
+      |> Base.encode16(case: :lower)
+
+    img = "https://www.gravatar.com/avatar/#{hash}?s=150&d=identicon"
+    img_tag(img, class: "img-fluid avatar avatar-ex-sm rounded-pill mr-3 shadow", width: "40", height: "40")
+  end
+
   def format_datetime(%NaiveDateTime{day: day, month: month, year: year, hour: hour, minute: minute}) do
     "#{format_month(month)} #{format_day(day)}, #{year}"
   end

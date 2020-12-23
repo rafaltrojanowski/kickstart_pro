@@ -9,6 +9,7 @@ defmodule KickstartWeb.PostController do
 
   def index(conn, _params) do
     posts = Blog.list_posts()
+    |> Repo.preload(:user)
     render(conn, "index.html", posts: posts)
   end
 
