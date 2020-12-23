@@ -14,6 +14,7 @@ defmodule KickstartWeb.PostController do
 
   def show(conn, %{"slug" => slug}) do
     post = Blog.get_post!(slug)
+    |> Repo.preload(:user)
     |> inc_page_views()
 
     render(conn, "show.html", post: post)
