@@ -35,6 +35,9 @@
             <a href="/admin/subscriptions">
               Subscriptions
             </a>
+            <a href="/admin/faqs">
+              Faq
+            </a>
           </nav>
         </div>
       </section>
