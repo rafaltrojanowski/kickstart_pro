@@ -8,28 +8,28 @@
     <section id="torch-filters">
       <h3>Find Pricing plans</h3>
       <%= form_tag @conn.request_path, method: :get, id: "torch-filters-form" do %>
-        
+
           <div class="field">
             <label>Name</label>
             <%= filter_select(:pricing_plan, :name, @conn.params) %>
             <%= filter_string_input(:pricing_plan, :name, @conn.params) %>
           </div>
-        
+
           <div class="field">
             <label>Period</label>
             <%= filter_select(:pricing_plan, :period, @conn.params) %>
             <%= filter_string_input(:pricing_plan, :period, @conn.params) %>
           </div>
-        
+
           <div class="field">
             <label>Description</label>
             <%= filter_select(:pricing_plan, :description, @conn.params) %>
             <%= filter_text_input(:pricing_plan, :description, @conn.params) %>
           </div>
-        
-        
-        
-        
+
+
+
+
         <button type="submit" class="torch-button">Search</button>
         <%= link "Clear Filters", to: Routes.admin_pricing_plan_path(@conn, :index) %>
       <% end %>
@@ -41,30 +41,34 @@
       <table>
         <thead>
           <tr>
-            
+
               <th><%= table_link(@conn, "Name", :name) %></th>
-            
+
               <th><%= table_link(@conn, "Price", :price) %></th>
-            
+
               <th><%= table_link(@conn, "Period", :period) %></th>
-            
+
               <th><%= table_link(@conn, "Description", :description) %></th>
-            
+
+              <th><%= table_link(@conn, "Postion", :position) %></th>
+
             <th><span>Actions</span></th>
           </tr>
         </thead>
         <tbody>
           <%= for pricing_plan <- @pricing_plans do %>
             <tr>
-              
+
                 <td><%= pricing_plan.name %></td>
-              
+
                 <td><%= pricing_plan.price %></td>
-              
+
                 <td><%= pricing_plan.period %></td>
-              
+
                 <td><%= pricing_plan.description %></td>
-              
+
+                <td><%= pricing_plan.position %></td>
+
               <td class="torch-actions">
                 <span><%= link "Show", to: Routes.admin_pricing_plan_path(@conn, :show, pricing_plan) %></span>
                 <span><%= link "Edit", to: Routes.admin_pricing_plan_path(@conn, :edit, pricing_plan) %></span>
