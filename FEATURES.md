@@ -4,6 +4,7 @@ Features:
 * Bootstrap
 * FontAwesome
 * User Authentication
+* Social Login
 * Blog
 * Pricing Plans Management
 * Subscriptions

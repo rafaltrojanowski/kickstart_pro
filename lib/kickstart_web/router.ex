@@ -20,7 +20,7 @@ defmodule KickstartWeb.Router do
     pipe_through [:browser, :require_authenticated_admin]
     resources "/posts", PostController
     resources "/users", UserController
-    resources "/plans", PricingPlanController
+    resources "/pricing", PricingPlanController
     resources "/subscriptions", SubscriptionController, only: [:show, :index]
     resources "/faqs", FaqController
     resources "/", DashboardController
@@ -38,7 +38,7 @@ defmodule KickstartWeb.Router do
 
     get "/", PageController, :index
     resources "/posts", PostController, param: "slug", only: [:index, :show]
-    resources "/plans", PricingPlanController, only: [:index]
+    resources "/pricing", PricingPlanController, only: [:index]
     resources "/subscriptions", SubscriptionController, only: [:new, :create]
     resources "/faq", FaqController, only: [:index]
   end

@@ -29,8 +29,8 @@
             <a href="/admin/users">
               Users
             </a>
-            <a href="/admin/plans">
-              Plans
+            <a href="/admin/pricing">
+              Pricing
             </a>
             <a href="/admin/subscriptions">
               Subscriptions
