@@ -585,7 +585,7 @@ defmodule Kickstart.Accounts do
 
   """
   def list_pricing_plans do
-    Repo.all(PricingPlan)
+    Repo.all(PricingPlan |> order_by(asc: :position))
   end
 
   @doc """

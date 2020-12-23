@@ -31,6 +31,12 @@
       <%= error_tag f, :description %>
     </div>
 
+    <div class="torch-form-group">
+      <%= label f, :position %>
+      <%= number_input f, :position, step: 1 %>
+      <%= error_tag f, :price %>
+    </div>
+
     <div class="torch-submit-form">
       <%= submit "Submit", class: "torch-submit-button" %>
     </div>
