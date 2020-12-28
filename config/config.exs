@@ -8,7 +8,8 @@
 use Mix.Config
 
 config :kickstart,
-  ecto_repos: [Kickstart.Repo]
+  ecto_repos: [Kickstart.Repo],
+  env: Mix.env()
 
 # Configures the endpoint
 config :kickstart, KickstartWeb.Endpoint,
