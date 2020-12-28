@@ -70,13 +70,13 @@ defmodule KickstartWeb.SubscriptionController do
         nil
       end
 
-    %Subscription{
+    Accounts.create_subscription(%{
       user: user,
       pricing_plan: pricing_plan,
       start_at: start_at,
       end_at: end_at,
       status: "paid",
-      payment_response: data}
-    |> Repo.insert
+      payment_response: data
+    })
   end
 end
