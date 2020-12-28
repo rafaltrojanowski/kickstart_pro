@@ -718,6 +718,12 @@ defmodule Kickstart.Accounts do
     Repo.delete(subscription)
   end
 
+  def create_subscription(attrs \\ %{}) do
+    %Subscription{}
+    |> Subscription.changeset(attrs)
+    |> Repo.insert()
+  end
+
   def paginate_subscriptions(params \\ %{}) do
     params =
       params
