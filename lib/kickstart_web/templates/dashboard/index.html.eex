@@ -1,0 +1,4 @@
+<h1>Dashboard</h1>
+
+<p>This is homepage for logged in users.</p>
+<p>You can customize this page in <code>lib/kickstart_web/templates/dashboard/index.html.eex</code></p>
