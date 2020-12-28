@@ -60,18 +60,21 @@ defmodule KickstartWeb.SubscriptionController do
 
   defp create_subscription(user, pricing_plan, data) do
     time_now = NaiveDateTime.utc_now
+    start_at = time_now |> NaiveDateTime.truncate(:second)
     end_at = case pricing_plan.period do
-      "montly" ->
-        Timex.shift(time_now, months: 1)
-      "yearly" ->
-        Timex.shift(time_now, years: 1)
+      "month" ->
+        Timex.shift(time_now, months: 1) |> NaiveDateTime.truncate(:second)
+      "year" ->
+        Timex.shift(time_now, years: 1) |> NaiveDateTime.truncate(:second)
+      "one-time" ->
+        nil
       end
 
     %Subscription{
       user: user,
       pricing_plan: pricing_plan,
-      start_at: time_now |> NaiveDateTime.truncate(:second),
-      end_at: end_at |> NaiveDateTime.truncate(:second),
+      start_at: start_at,
+      end_at: end_at,
       status: "paid",
       payment_response: data}
     |> Repo.insert

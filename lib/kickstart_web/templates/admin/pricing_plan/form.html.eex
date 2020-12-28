@@ -20,8 +20,8 @@
     </div>
 
     <div class="torch-form-group">
-      <%= label f, :period %>
-      <%= select f, :period, ["montly", "yearly"] %>
+      <%= label f, :period, "Period (Interval)" %>
+      <%= select f, :period, ["month", "year", "one-time"] %>
       <%= error_tag f, :period %>
     </div>
 
