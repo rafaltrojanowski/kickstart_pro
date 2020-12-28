@@ -48,7 +48,7 @@ defmodule KickstartWeb.SubscriptionController do
       cond do
         response["created"] ->
           create_subscription(conn.assigns.current_user, pricing_plan, response)
-          render(conn, "success.html")
+          render(conn, "success.html", response: response)
         response["error"] ->
           IO.inspect(response)
           render(conn, "error.html", error: response["error"])
