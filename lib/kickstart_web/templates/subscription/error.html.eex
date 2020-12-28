@@ -1,1 +1,10 @@
 <h1>Payment error</h1>
+
+<p class="alert alert-danger" role="alert"><%= @error["message"] %><p>
+
+<%= if Application.get_env(:kickstart, :env) == :dev do %>
+  <h4>Details:</h4>
+  <p><strong>Error code:</strong> <%= @error["code"] %></p>
+  <p><strong>Doc url:</strong> <%= @error["doc_url"] %></p>
+  <p><strong>Type:</strong> <%= @error["type"] %></p>
+<% end %>

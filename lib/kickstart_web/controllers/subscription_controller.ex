@@ -51,7 +51,7 @@ defmodule KickstartWeb.SubscriptionController do
           render(conn, "success.html")
         response["error"] ->
           IO.inspect(response)
-          render(conn, "error.html")
+          render(conn, "error.html", error: response["error"])
       end
     else
       render(conn, "new.html", pricing_plan: pricing_plan, changeset: %{changeset | action: :insert})
