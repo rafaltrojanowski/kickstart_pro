@@ -85,8 +85,8 @@ defmodule KickstartWeb.Router do
     get "/users/settings", UserSettingsController, :edit
     put "/users/settings", UserSettingsController, :update
     get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
-    get "/home", DashboardController, :index
-    get "/billing", BillingController, :index
+    get "/users/dashboard/home", DashboardController, :index
+    get "/users/dashboard/billing", BillingController, :index
   end
 
   scope "/", KickstartWeb do

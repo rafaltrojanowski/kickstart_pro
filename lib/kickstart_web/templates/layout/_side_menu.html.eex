@@ -1,22 +1,24 @@
-<div class="wrapper d-flex">
-  <div class="sidebar">
-    <ul>
-      <li><a href="/home"><i class="fas fa-home"></i>Dashboard</a></li>
-      <li><a href="/billing"><i class="far fa-credit-card"></i>Billing</a></li>
-    </ul>
+<%= if @conn.request_path == "/" || String.starts_with?(@conn.request_path, "/users/dashboard") do %>
+  <div class="wrapper d-flex">
+    <div class="sidebar">
+      <ul>
+        <li><a href="/users/dashboard/home"><i class="fas fa-home"></i>Dashboard</a></li>
+        <li><a href="/users/dashboard/billing"><i class="far fa-credit-card"></i>Billing</a></li>
+      </ul>
 
-    <% if false do %>
-      <small class="text-muted px-3">PRODUCTIVITY TOOLS</small>
-      <ul>
-        <li><a href="#"><i class="far fa-calendar-alt"></i>Online Scheduler</a></li>
-        <li><a href="#"><i class="fas fa-video"></i>Video Meeting</a></li>
-        <li><a href="#"><i class="fas fa-id-badge"></i>Public Profile</a></li>
-      </ul>
-      <small class="text-muted px-3">GROW YOUR CLIENT BASE</small>
-      <ul>
-        <li><a href="#"><i class="fas fa-external-link-alt"></i>Share</a></li>
-        <li><a href="#"><i class="fas fa-code"></i>Add to Website</a></li>
-      </ul>
-    <% end %>
+      <% if false do %>
+        <small class="text-muted px-3">PRODUCTIVITY TOOLS</small>
+        <ul>
+          <li><a href="#"><i class="far fa-calendar-alt"></i>Online Scheduler</a></li>
+          <li><a href="#"><i class="fas fa-video"></i>Video Meeting</a></li>
+          <li><a href="#"><i class="fas fa-id-badge"></i>Public Profile</a></li>
+        </ul>
+        <small class="text-muted px-3">GROW YOUR CLIENT BASE</small>
+        <ul>
+          <li><a href="#"><i class="fas fa-external-link-alt"></i>Share</a></li>
+          <li><a href="#"><i class="fas fa-code"></i>Add to Website</a></li>
+        </ul>
+      <% end %>
+    </div>
   </div>
-</div>
+<% end %>
