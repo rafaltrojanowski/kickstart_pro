@@ -41,6 +41,10 @@
       </div>
     </nav>
 
+    <%= if @current_user do %>
+      <%= render "_side_menu.html", assigns %>
+    <% end %>
+
     <main role="main" class="container">
       <% if get_flash(@conn, :info) do %>
         <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
