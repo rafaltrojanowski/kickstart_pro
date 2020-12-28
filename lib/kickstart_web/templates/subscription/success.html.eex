@@ -1,3 +1,5 @@
-<h1>Payment successful</h1>
+<h1><%= @response["outcome"]["seller_message"] %></h1>
 
-Go to invoices to see more details
+Your <a href="<%= @response["receipt_url"] %>" target="_blank">receipt</a>.
+
+<p>Go to billing page to see more details about your <a href="/users/dashboard/billing">current plan</a>.</p>
