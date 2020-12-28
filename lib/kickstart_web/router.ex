@@ -21,7 +21,7 @@ defmodule KickstartWeb.Router do
     resources "/posts", PostController
     resources "/users", UserController
     resources "/pricing", PricingPlanController
-    resources "/subscriptions", SubscriptionController, only: [:show, :index]
+    resources "/subscriptions", SubscriptionController, only: [:show, :index, :delete]
     resources "/faqs", FaqController
     resources "/", DashboardController
   end
@@ -86,6 +86,7 @@ defmodule KickstartWeb.Router do
     put "/users/settings", UserSettingsController, :update
     get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
     get "/home", DashboardController, :index
+    get "/billing", BillingController, :index
   end
 
   scope "/", KickstartWeb do
