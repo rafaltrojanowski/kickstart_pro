@@ -1,0 +1,19 @@
+<h1>Billing</h1>
+
+<h3>Current Plan</h3>
+
+<p>You are currently subscribed to <strong><%= @current_pricing_plan.name %></strong> / <%= @current_pricing_plan.period %> plan.</p>
+
+<hr/>
+
+<h3>Card information</h3>
+<p>
+  <i class="fab fa-cc-<%= @current_subscription.payment_response["source"]["brand"] |> String.downcase %>"></i>
+  <%= @current_subscription.payment_response["source"]["brand"] %>
+  ending in <%= @current_subscription.payment_response["source"]["last4"] %>.
+</p>
+
+<hr/>
+
+<h3>Invoices</h3>
+<p>Your history of transactions and payments (comming soon).</p>

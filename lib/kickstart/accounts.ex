@@ -717,6 +717,10 @@ defmodule Kickstart.Accounts do
 
   def get_subscription!(id), do: Repo.get!(Subscription, id)
 
+  def delete_subscription(%Subscription{} = subscription) do
+    Repo.delete(subscription)
+  end
+
   def paginate_subscriptions(params \\ %{}) do
     params =
       params
