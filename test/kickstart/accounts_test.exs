@@ -505,9 +505,9 @@ defmodule Kickstart.AccountsTest do
   describe "pricing_plans" do
     alias Kickstart.Accounts.PricingPlan
 
-    @valid_attrs %{description: "some description", name: "some name", period: "some period", price: "120.5"}
-    @update_attrs %{description: "some updated description", name: "some updated name", period: "some updated period", price: "456.7"}
-    @invalid_attrs %{description: nil, name: nil, period: nil, price: nil}
+    @valid_attrs %{description: "some description", name: "some name", period: "some period", price: "120.5", position: 1}
+    @update_attrs %{description: "some updated description", name: "some updated name", period: "some updated period", price: "456.7", position: 2}
+    @invalid_attrs %{description: nil, name: nil, period: nil, price: nil, position: nil}
 
     def pricing_plan_fixture(attrs \\ %{}) do
       {:ok, pricing_plan} =
@@ -534,6 +534,7 @@ defmodule Kickstart.AccountsTest do
       assert pricing_plan.name == "some name"
       assert pricing_plan.period == "some period"
       assert pricing_plan.price == Decimal.new("120.5")
+      assert pricing_plan.position == 1
     end
 
     test "create_pricing_plan/1 with invalid data returns error changeset" do
