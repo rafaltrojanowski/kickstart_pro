@@ -9,6 +9,7 @@ defmodule KickstartWeb.SubscriptionController do
   alias Gringotts.CreditCard
 
   import Ecto.Changeset
+  import Ecto.Query
 
   def new(conn, %{"pricing_plan_id" => id}) do
     data  = %{}
@@ -24,6 +25,18 @@ defmodule KickstartWeb.SubscriptionController do
   end
 
   def create(conn, %{"subscription" => subscription_params}) do
+    user_id = conn.assigns.current_user.id
+    time_now = NaiveDateTime.utc_now
+
+    query = from s in "subscriptions",
+      where: s.user_id == ^user_id and s.start_at < ^time_now and (s.end_at > ^time_now or is_nil(s.end_at)),
+      select: [s.id]
+    current_subscription = Repo.all(query)
+
+    unless Enum.empty?(current_subscription) do
+      render(conn, "error.html", error: %{"message" => "Subscription already exists."})
+    end
+
     pricing_plan = Accounts.get_pricing_plan!(subscription_params["pricing_plan_id"])
     data  = %{}
     types = %{first_name: :string, last_name: :string, number: :string, year: :string, month: :string, verification_code: :string}
@@ -70,13 +83,13 @@ defmodule KickstartWeb.SubscriptionController do
         nil
       end
 
-    Accounts.create_subscription(%{
+    %Subscription{
       user: user,
       pricing_plan: pricing_plan,
       start_at: start_at,
       end_at: end_at,
       status: "paid",
-      payment_response: data
-    })
+      payment_response: data}
+    |> Repo.insert()
   end
 end

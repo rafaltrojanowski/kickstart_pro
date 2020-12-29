@@ -39,7 +39,6 @@ defmodule KickstartWeb.Router do
     get "/", PageController, :index
     resources "/posts", PostController, param: "slug", only: [:index, :show]
     resources "/pricing", PricingPlanController, only: [:index]
-    resources "/subscriptions", SubscriptionController, only: [:new, :create]
     resources "/faq", FaqController, only: [:index]
   end
 
@@ -87,6 +86,7 @@ defmodule KickstartWeb.Router do
     get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
     get "/users/dashboard/home", DashboardController, :index
     get "/users/dashboard/billing", BillingController, :index
+    resources "/subscriptions", SubscriptionController, only: [:new, :create]
   end
 
   scope "/", KickstartWeb do
