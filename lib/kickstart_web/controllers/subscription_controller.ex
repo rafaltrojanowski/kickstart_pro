@@ -33,41 +33,41 @@ defmodule KickstartWeb.SubscriptionController do
       select: [s.id]
     current_subscription = Repo.all(query)
 
-    unless Enum.empty?(current_subscription) do
+    if !Enum.empty?(current_subscription) do
       render(conn, "error.html", error: %{"message" => "Subscription already exists."})
-    end
-
-    pricing_plan = Accounts.get_pricing_plan!(subscription_params["pricing_plan_id"])
-    data  = %{}
-    types = %{first_name: :string, last_name: :string, number: :string, year: :string, month: :string, verification_code: :string}
-
-    changeset =
-      {data, types}
-      |> Ecto.Changeset.cast(subscription_params, Map.keys(types))
-      |> validate_required([:first_name, :last_name, :number, :year, :month, :verification_code])
-
-    if changeset.valid? do
-      card = %CreditCard{
-        first_name: subscription_params["first_name"],
-        last_name: subscription_params["last_name"],
-        number: subscription_params["number"],
-        year: subscription_params["year"] |> String.to_integer,
-        month: subscription_params["month"] |> String.to_integer,
-        verification_code:  subscription_params["verification_code"]
-      }
-      amount = Money.new(pricing_plan.price, :USD)
-      response = Gringotts.purchase(Stripe, amount, card)
-
-      cond do
-        response["created"] ->
-          create_subscription(conn.assigns.current_user, pricing_plan, response)
-          render(conn, "success.html", response: response)
-        response["error"] ->
-          IO.inspect(response)
-          render(conn, "error.html", error: response["error"])
-      end
     else
-      render(conn, "new.html", pricing_plan: pricing_plan, changeset: %{changeset | action: :insert})
+      pricing_plan = Accounts.get_pricing_plan!(subscription_params["pricing_plan_id"])
+      data  = %{}
+      types = %{first_name: :string, last_name: :string, number: :string, year: :string, month: :string, verification_code: :string}
+
+      changeset =
+        {data, types}
+        |> Ecto.Changeset.cast(subscription_params, Map.keys(types))
+        |> validate_required([:first_name, :last_name, :number, :year, :month, :verification_code])
+
+      if changeset.valid? do
+        card = %CreditCard{
+          first_name: subscription_params["first_name"],
+          last_name: subscription_params["last_name"],
+          number: subscription_params["number"],
+          year: subscription_params["year"] |> String.to_integer,
+          month: subscription_params["month"] |> String.to_integer,
+          verification_code:  subscription_params["verification_code"]
+        }
+        amount = Money.new(pricing_plan.price, :USD)
+        response = Gringotts.purchase(Stripe, amount, card)
+
+        cond do
+          response["created"] ->
+            create_subscription(conn.assigns.current_user, pricing_plan, response)
+            render(conn, "success.html", response: response)
+          response["error"] ->
+            IO.inspect(response)
+            render(conn, "error.html", error: response["error"])
+        end
+      else
+        render(conn, "new.html", pricing_plan: pricing_plan, changeset: %{changeset | action: :insert})
+      end
     end
   end
 
