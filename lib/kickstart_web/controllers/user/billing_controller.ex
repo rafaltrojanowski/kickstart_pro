@@ -10,7 +10,7 @@ defmodule KickstartWeb.BillingController do
     time_now = NaiveDateTime.utc_now
 
     query = from s in "subscriptions",
-      where: s.user_id == ^user_id and s.start_at < ^time_now and (s.end_at > ^time_now or is_nil(s.end_at)),
+      where: s.user_id == ^user_id and s.status == "paid" and s.start_at < ^time_now and (s.end_at > ^time_now or is_nil(s.end_at)),
       select: [s.id, s.pricing_plan_id]
 
     current_subscription = Repo.one(query)

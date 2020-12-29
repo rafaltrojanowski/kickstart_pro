@@ -18,6 +18,6 @@ defmodule Kickstart.Accounts.Subscription do
   def changeset(subscription, attrs) do
     subscription
     |> cast(attrs, [:start_at, :end_at, :status, :payment_response])
-    |> validate_required([:start_at, :end_at, :status, :payment_response])
+    |> validate_required([:start_at, :status, :payment_response])
   end
 end

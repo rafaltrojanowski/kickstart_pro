@@ -86,7 +86,9 @@ defmodule KickstartWeb.Router do
     get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
     get "/users/dashboard/home", DashboardController, :index
     get "/users/dashboard/billing", BillingController, :index
-    resources "/subscriptions", SubscriptionController, only: [:new, :create]
+    resources "/subscriptions", SubscriptionController, only: [:new, :create] do
+      put "/cancel", SubscriptionController, :cancel
+    end
   end
 
   scope "/", KickstartWeb do
