@@ -4,6 +4,7 @@
 
 <%= if @current_pricing_plan do %>
   <p>You are currently subscribed to <strong><%= @current_pricing_plan.name %></strong> / <%= @current_pricing_plan.period %> plan.</p>
+  <%= link "Cancel", to: Routes.subscription_subscription_path(@conn, :cancel, @current_subscription), method: :put %>
 <% else %>
   <p>You don't have any subscription yet.</p>
 <% end %>

@@ -3,6 +3,7 @@ defmodule KickstartWeb.SubscriptionController do
 
   alias Kickstart.Accounts
   alias Kickstart.Accounts.Subscription
+  alias Kickstart.Subscriptions
   alias Kickstart.Repo
 
   alias Gringotts.Gateways.Stripe
@@ -29,7 +30,7 @@ defmodule KickstartWeb.SubscriptionController do
     time_now = NaiveDateTime.utc_now
 
     query = from s in "subscriptions",
-      where: s.user_id == ^user_id and s.start_at < ^time_now and (s.end_at > ^time_now or is_nil(s.end_at)),
+      where: s.user_id == ^user_id and s.status == "paid" and s.start_at < ^time_now and (s.end_at > ^time_now or is_nil(s.end_at)),
       select: [s.id]
     current_subscription = Repo.all(query)
 
@@ -69,6 +70,15 @@ defmodule KickstartWeb.SubscriptionController do
         render(conn, "new.html", pricing_plan: pricing_plan, changeset: %{changeset | action: :insert})
       end
     end
+  end
+
+  def cancel(conn, %{"subscription_id" => id}) do
+    Accounts.get_subscription!(id)
+    |> Subscriptions.cancel()
+
+    conn
+    |> put_flash(:info, "Subscription has been canceled.")
+    |> redirect(to: Routes.billing_path(conn, :index))
   end
 
   defp create_subscription(user, pricing_plan, data) do
