@@ -2,16 +2,24 @@
 
 <h3>Current Plan</h3>
 
-<p>You are currently subscribed to <strong><%= @current_pricing_plan.name %></strong> / <%= @current_pricing_plan.period %> plan.</p>
+<%= if @current_pricing_plan do %>
+  <p>You are currently subscribed to <strong><%= @current_pricing_plan.name %></strong> / <%= @current_pricing_plan.period %> plan.</p>
+<% else %>
+  <p>You don't have any subscription yet.</p>
+<% end %>
 
 <hr/>
 
 <h3>Card information</h3>
-<p>
-  <i class="fab fa-cc-<%= @current_subscription.payment_response["source"]["brand"] |> String.downcase %>"></i>
-  <%= @current_subscription.payment_response["source"]["brand"] %>
-  ending in <%= @current_subscription.payment_response["source"]["last4"] %>.
-</p>
+<%= if @current_subscription do %>
+  <p>
+    <i class="fab fa-cc-<%= @current_subscription.payment_response["source"]["brand"] |> String.downcase %>"></i>
+    <%= @current_subscription.payment_response["source"]["brand"] %>
+    ending in <%= @current_subscription.payment_response["source"]["last4"] %>.
+  </p>
+<% else %>
+  <p>You don't have any subscription yet.</p>
+<% end %>
 
 <hr/>
 
