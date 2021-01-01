@@ -2,6 +2,8 @@ defmodule Kickstart.Accounts.PricingPlan do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias Kickstart.Accounts.Feature
+
   schema "pricing_plans" do
     field :description, :string
     field :name, :string
@@ -10,6 +12,7 @@ defmodule Kickstart.Accounts.PricingPlan do
     field :position, :integer
     field :is_visible, :boolean
 
+    embeds_many :features, Feature, on_replace: :delete
     timestamps()
   end
 
@@ -20,5 +23,19 @@ defmodule Kickstart.Accounts.PricingPlan do
     |> validate_required([:name, :price, :period, :description, :position])
     |> validate_length(:description, min: 5)
     |> validate_number(:price, greater_than: 0)
+    |> cast_embed(:features, with: &feature_changeset/2, required: true)
+  end
+
+  defp feature_changeset(schema, params) do
+    schema
+    |> cast(params, [:title])
+  end
+end
+
+defmodule Kickstart.Accounts.Feature do
+  use Ecto.Schema
+
+  embedded_schema do
+    field :title
   end
 end

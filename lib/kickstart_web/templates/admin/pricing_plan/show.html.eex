@@ -37,6 +37,17 @@
           <div class="torch-show-data"><%= @pricing_plan.is_visible %></div>
         </li>
 
+        <li>
+          <div class="torch-show-label">Features:</div>
+          <div class="torch-show-data">
+            <ul>
+              <%= for feature <- @pricing_plan.features do %>
+                <li><%= feature.title %></li>
+              <% end %>
+            </ul>
+          </div>
+        </li>
+
     </ul>
   </div>
 </section>

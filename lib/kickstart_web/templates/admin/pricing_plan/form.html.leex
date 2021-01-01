@@ -43,6 +43,26 @@
       <%= error_tag f, :price %>
     </div>
 
+    <legend>
+      <span>Features</span>
+    </legend>
+
+    <% inputs_for f, :features, fn ft -> %>
+      <div class="torch-form-group">
+        <%= label ft, :title, class: "control-label" %>
+        <%= text_input ft, :title, class: "form-control" %>
+        <%= error_tag ft, :title %>
+      </div>
+
+      <div class="torch-form-group">
+        <%= label ft, :position, class: "control-label" %>
+        <%= text_input ft, :position, class: "form-control" %>
+        <%= error_tag ft, :position %>
+      </div>
+    <% end %>
+
+    <%= link_to_feature_fields %>
+
     <div class="torch-submit-form">
       <%= submit "Submit", class: "torch-submit-button", disabled: !@changeset.valid? %>
     </div>

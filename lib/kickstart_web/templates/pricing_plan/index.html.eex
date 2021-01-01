@@ -7,8 +7,8 @@
       <div class="card-body">
         <h1 class="card-title pricing-card-title">$<%= pricing_plan.price %> <small class="text-muted">/ <%= pricing_plan.period %></small></h1>
         <ul class="list-unstyled mt-3 mb-4">
-          <%= for li <- Enum.map(String.split(pricing_plan.description, ";"), fn x -> x end) do %>
-            <li><%= li %></li>
+          <%= for feature <- pricing_plan.features do %>
+            <li><%= feature.title %></li>
           <% end %>
         </ul>
         <%= link "Subscribe", to: Routes.subscription_path(@conn, :new, pricing_plan_id: pricing_plan.id), class: "btn btn-lg btn-block btn-outline-primary" %>

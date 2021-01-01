@@ -1,0 +1,9 @@
+<%= inputs_for @f, :features, fn ft -> %>
+  <div id="new-feature">
+    <div class="torch-form-group">
+      <%= label ft, :title, class: "control-label" %>
+      <%= text_input ft, :title, class: "form-control" %>
+      <%= error_tag ft, :title %>
+    </div
+  </div>
+<% end %>

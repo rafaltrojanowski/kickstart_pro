@@ -4,7 +4,6 @@ defmodule KickstartWeb.Admin.PricingPlanController do
   alias Kickstart.Accounts
   alias Kickstart.Accounts.PricingPlan
 
-
   plug(:put_layout, {KickstartWeb.LayoutView, "torch.html"})
 
 
@@ -20,7 +19,7 @@ defmodule KickstartWeb.Admin.PricingPlanController do
   end
 
   def new(conn, _params) do
-    changeset = Accounts.change_pricing_plan(%PricingPlan{})
+    changeset = Accounts.change_pricing_plan_for_new(%PricingPlan{})
     render(conn, "new.html", changeset: changeset)
   end
 

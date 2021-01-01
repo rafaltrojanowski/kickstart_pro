@@ -50,4 +50,3 @@
     <script src="<%= Routes.static_path(@conn, "/torch/torch.js") %>"></script>
   </body>
 </html>
-
