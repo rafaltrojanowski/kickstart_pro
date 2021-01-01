@@ -3,4 +3,7 @@ defmodule KickstartWeb.Admin.PricingPlanView do
 
   import Torch.TableView
   import Torch.FilterView
+
+  alias Kickstart.Accounts.PricingPlan
+  alias Kickstart.Accounts.Feature
 end

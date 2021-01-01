@@ -65,7 +65,7 @@ defmodule Kickstart.Accounts do
       iex> update_user(user, %{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
-  """
+    """
   def update_user(%User{} = user, attrs) do
     user
     |> User.changeset(attrs)
@@ -653,6 +653,8 @@ defmodule Kickstart.Accounts do
     Repo.delete(pricing_plan)
   end
 
+  alias Kickstart.Accounts.Feature
+
   @doc """
   Returns an `%Ecto.Changeset{}` for tracking pricing_plan changes.
 
@@ -662,6 +664,7 @@ defmodule Kickstart.Accounts do
       %Ecto.Changeset{data: %PricingPlan{}}
 
   """
+
   def change_pricing_plan(%PricingPlan{} = pricing_plan, attrs \\ %{}) do
     PricingPlan.changeset(pricing_plan, attrs)
   end

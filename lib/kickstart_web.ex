@@ -41,6 +41,8 @@ defmodule KickstartWeb do
       # Import LiveView Helpers
       import Phoenix.LiveView.Helpers
 
+      import Phoenix.LiveView.Helpers
+
       # Include shared imports and aliases for views
       unquote(view_helpers())
     end

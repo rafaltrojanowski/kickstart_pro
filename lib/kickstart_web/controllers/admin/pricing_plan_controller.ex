@@ -4,7 +4,6 @@ defmodule KickstartWeb.Admin.PricingPlanController do
   alias Kickstart.Accounts
   alias Kickstart.Accounts.PricingPlan
 
-
   plug(:put_layout, {KickstartWeb.LayoutView, "torch.html"})
 
 
