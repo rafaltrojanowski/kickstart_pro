@@ -11,27 +11,32 @@
       <h3>Pricing plan Details</h3>
     </div>
     <ul>
-      
+
         <li>
           <div class="torch-show-label">Name:</div>
           <div class="torch-show-data"><%= @pricing_plan.name %></div>
         </li>
-      
+
         <li>
           <div class="torch-show-label">Price:</div>
           <div class="torch-show-data"><%= @pricing_plan.price %></div>
         </li>
-      
+
         <li>
           <div class="torch-show-label">Period:</div>
           <div class="torch-show-data"><%= @pricing_plan.period %></div>
         </li>
-      
+
         <li>
           <div class="torch-show-label">Description:</div>
           <div class="torch-show-data"><%= @pricing_plan.description %></div>
         </li>
-      
+
+        <li>
+          <div class="torch-show-label">Is visible:</div>
+          <div class="torch-show-data"><%= @pricing_plan.is_visible %></div>
+        </li>
+
     </ul>
   </div>
 </section>

@@ -8,6 +8,7 @@ defmodule Kickstart.Accounts.PricingPlan do
     field :period, :string
     field :price, :decimal
     field :position, :integer
+    field :is_visible, :boolean
 
     timestamps()
   end
@@ -15,7 +16,7 @@ defmodule Kickstart.Accounts.PricingPlan do
   @doc false
   def changeset(pricing_plan, attrs) do
     pricing_plan
-    |> cast(attrs, [:name, :price, :period, :description, :position])
+    |> cast(attrs, [:name, :price, :period, :description, :position, :is_visible])
     |> validate_required([:name, :price, :period, :description, :position])
   end
 end
