@@ -37,6 +37,12 @@
       <%= error_tag f, :price %>
     </div>
 
+    <div class="torch-form-group">
+      <%= label f, :is_visible %>
+      <%= checkbox f, :is_visible %>
+      <%= error_tag f, :price %>
+    </div>
+
     <div class="torch-submit-form">
       <%= submit "Submit", class: "torch-submit-button" %>
     </div>
