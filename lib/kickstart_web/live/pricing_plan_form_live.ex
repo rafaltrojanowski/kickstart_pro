@@ -31,6 +31,38 @@ defmodule KickstartWeb.PricingPlanFormLive do
     {:noreply, assign(socket, changeset: changeset)}
   end
 
+  def handle_event("add-feature", _, socket) do
+    vars = Map.get(socket.assigns.changeset.changes, :features, socket.assigns.pricing_plan.features)
+
+    features =
+      vars
+      |> Enum.concat([
+        PricingPlans.change_feature(%Feature{temp_id: get_temp_id()})
+      ])
+
+    changeset =
+      socket.assigns.changeset
+      |> Ecto.Changeset.put_embed(:features, features)
+
+    {:noreply, assign(socket, changeset: changeset)}
+  end
+
+  def handle_event("remove-variant", %{"remove" => remove_id}, socket) do
+    variants =
+      socket.assigns.changeset.changes.variants
+      |> Enum.reject(fn %{data: variant} ->
+        variant.temp_id == remove_id
+      end)
+
+    changeset =
+      socket.assigns.changeset
+      |> Ecto.Changeset.put_assoc(:variants, variants)
+
+    {:noreply, assign(socket, changeset: changeset)}
+  end
+
   def get_pricing_plan(%{"id" => id} = _pricing_plan_params), do: Accounts.get_pricing_plan!(id)
-  def get_pricing_plan(_pricing_plan_params), do: %PricingPlan{}
+  def get_pricing_plan(_pricing_plan_params), do: %PricingPlan{features: []}
+
+  defp get_temp_id, do: :crypto.strong_rand_bytes(5) |> Base.url_encode64 |> binary_part(0, 5)
 end

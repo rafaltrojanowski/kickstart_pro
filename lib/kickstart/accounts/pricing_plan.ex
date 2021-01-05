@@ -23,19 +23,39 @@ defmodule Kickstart.Accounts.PricingPlan do
     |> validate_required([:name, :price, :period, :description, :position])
     |> validate_length(:description, min: 5)
     |> validate_number(:price, greater_than: 0)
-    |> cast_embed(:features, with: &feature_changeset/2, required: true)
+    |> cast_embed(:features, with: &Kickstart.Accounts.Feature.changeset/2, required: true)
   end
 
-  defp feature_changeset(schema, params) do
-    schema
-    |> cast(params, [:title])
-  end
+  # defp feature_changeset(schema, params) do
+  #   schema
+  #   |> cast(params, [:title])
+  # end
 end
 
 defmodule Kickstart.Accounts.Feature do
   use Ecto.Schema
+  import Ecto.Changeset
 
   embedded_schema do
     field :title
+    field :temp_id, :string, virtual: true
+    field :delete, :boolean, virtual: true
+  end
+
+  def changeset(feature, attrs) do
+    feature
+    |> Map.put(:temp_id, (feature.temp_id || attrs["temp_id"])) # So its persisted
+    |> cast(attrs, [:title, :delete]) # Add delete here
+    |> validate_required([:title])
+    |> maybe_mark_for_deletion()
+  end
+
+  defp maybe_mark_for_deletion(%{data: %{id: nil}} = changeset), do: changeset
+  defp maybe_mark_for_deletion(changeset) do
+    if get_change(changeset, :delete) do
+      %{changeset | action: :delete}
+    else
+      changeset
+    end
   end
 end
