@@ -4,6 +4,8 @@
     <!-- Uncomment to just use the bare bones torch styles rather than the theme -->
     <!--<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/torch/base.css") %>">-->
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/torch/theme.css") %>">
+    <%= csrf_meta_tag() %>
+    <script defer type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </head>
 
   <body class="<%= Torch.PageView.body_classes(@conn) %>">

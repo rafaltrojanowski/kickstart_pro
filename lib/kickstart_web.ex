@@ -20,6 +20,8 @@ defmodule KickstartWeb do
   def controller do
     quote do
       use Phoenix.Controller, namespace: KickstartWeb
+      # Import LiveView
+      import Phoenix.LiveView.Controller
 
       import Plug.Conn
       import KickstartWeb.Gettext
@@ -36,6 +38,8 @@ defmodule KickstartWeb do
       # Import convenience functions from controllers
       import Phoenix.Controller,
         only: [get_flash: 1, get_flash: 2, view_module: 1, view_template: 1]
+      # Import LiveView Helpers
+      import Phoenix.LiveView.Helpers
 
       # Include shared imports and aliases for views
       unquote(view_helpers())
@@ -48,6 +52,7 @@ defmodule KickstartWeb do
 
       import Plug.Conn
       import Phoenix.Controller
+      import Phoenix.LiveView.Router
     end
   end
 
