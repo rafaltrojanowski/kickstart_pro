@@ -18,5 +18,7 @@ defmodule Kickstart.Accounts.PricingPlan do
     pricing_plan
     |> cast(attrs, [:name, :price, :period, :description, :position, :is_visible])
     |> validate_required([:name, :price, :period, :description, :position])
+    |> validate_length(:description, min: 5)
+    |> validate_number(:price, greater_than: 0)
   end
 end

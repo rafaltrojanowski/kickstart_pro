@@ -9,6 +9,12 @@
     <div class="header">
       <h3>Edit Pricing plan</h3>
     </div>
-    <%= render "form.html", Map.put(assigns, :action, Routes.admin_pricing_plan_path(@conn, :update, @pricing_plan)) %>
+    <%= live_render @conn, KickstartWeb.PricingPlanFormLive,
+      session: %{
+        "id" => @pricing_plan.id,
+        "action" => Routes.admin_pricing_plan_path(@conn, :update, @pricing_plan),
+        "csrf_token" => Plug.CSRFProtection.get_csrf_token()
+       }
+    %>
   </div>
 </section>
