@@ -17,7 +17,7 @@ config :kickstart, KickstartWeb.Endpoint,
   secret_key_base: "9g+zSB+jRhoGRVbtdvkwqH/s64gXtnFSttTDyQ3wmga6Kp25xY5n9p/12/l1Ohr0",
   render_errors: [view: KickstartWeb.ErrorView, accepts: ~w(html json), layout: false],
   pubsub_server: Kickstart.PubSub,
-  live_view: [signing_salt: "ECXK5ckR"]
+  live_view: [signing_salt: "Uz08k6+F1nr+RI7DgJFzosevFh9vP4Mj"]
 
 # Configures Elixir's Logger
 config :logger, :console,
