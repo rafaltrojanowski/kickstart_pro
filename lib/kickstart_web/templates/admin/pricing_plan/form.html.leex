@@ -1,4 +1,4 @@
-<%= form_for @changeset, @action, [multipart: true, id: "torch-form"], fn f -> %>
+<%= form_for @changeset, @action, [phx_change: :validate, multipart: true, id: "torch-form", csrf_token: @csrf_token], fn f -> %>
   <fieldset class="torch-panel">
     <legend>
       <span>Details</span>
@@ -44,7 +44,7 @@
     </div>
 
     <div class="torch-submit-form">
-      <%= submit "Submit", class: "torch-submit-button" %>
+      <%= submit "Submit", class: "torch-submit-button", disabled: !@changeset.valid? %>
     </div>
   </fieldset>
 <% end %>
