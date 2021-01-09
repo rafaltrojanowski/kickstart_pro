@@ -25,11 +25,6 @@ defmodule Kickstart.Accounts.PricingPlan do
     |> validate_number(:price, greater_than: 0)
     |> cast_embed(:features, with: &Kickstart.Accounts.Feature.changeset/2, required: true)
   end
-
-  # defp feature_changeset(schema, params) do
-  #   schema
-  #   |> cast(params, [:title])
-  # end
 end
 
 defmodule Kickstart.Accounts.Feature do
