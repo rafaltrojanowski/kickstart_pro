@@ -672,10 +672,6 @@ defmodule Kickstart.Accounts do
     PricingPlan.changeset(pricing_plan, attrs)
   end
 
-  # def change_pricing_plan_for_new(%PricingPlan{} = pricing_plan, attrs \\ %{}) do
-  #   PricingPlan.changeset(%PricingPlan{features: [%Feature{}, %Feature{}, %Feature{}, %Feature{}]}, attrs)
-  # end
-
   @doc """
   Paginate the list of pricing plans using filtrex
   filters.

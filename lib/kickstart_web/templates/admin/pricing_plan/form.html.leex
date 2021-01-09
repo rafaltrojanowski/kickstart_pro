@@ -47,19 +47,27 @@
       <span>Features</span>
     </legend>
 
-    <% inputs_for f, :features, fn ft -> %>
-      <div class="torch-form-group">
-        <%= label ft, :title, class: "control-label" %>
-        <%= text_input ft, :title, class: "form-control" %>
-        <%= error_tag ft, :title %>
-      </div>
+    <%= inputs_for f, :features, fn v -> %>
+      <div class="flex flex-wrap -mx-1 overflow-hidden">
+        <div class="torch-form-group">
+          <%= label v, :title%>
+          <%= text_input v, :title, class: "form-control" %>
+          <%= error_tag v, :title %>
+        </div>
 
-      <div class="torch-form-group">
-        <%= label ft, :position, class: "control-label" %>
-        <%= text_input ft, :position, class: "form-control" %>
-        <%= error_tag ft, :position %>
+        <div class="torch-form-group">
+          <%= label v, :delete %><br>
+          <%= if is_nil(v.data.temp_id) do %>
+            <%= checkbox v, :delete %>
+          <% else %>
+            <%= hidden_input v, :temp_id %>
+            <a href="#" phx-click="remove-feature" phx-value-remove="<%= v.data.temp_id %>">&times</a>
+          <% end %>
+        </div>
       </div>
     <% end %>
+
+    <a href="#" phx-click="add-feature">Add feature</a>
 
     <div class="torch-submit-form">
       <%= submit "Submit", class: "torch-submit-button", disabled: !@changeset.valid? %>
