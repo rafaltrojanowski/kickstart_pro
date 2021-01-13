@@ -505,8 +505,20 @@ defmodule Kickstart.AccountsTest do
   describe "pricing_plans" do
     alias Kickstart.Accounts.PricingPlan
 
-    @valid_attrs %{description: "some description", name: "some name", period: "some period", price: "120.5", position: 1}
-    @update_attrs %{description: "some updated description", name: "some updated name", period: "some updated period", price: "456.7", position: 2}
+    @valid_attrs %{
+      description: "some description",
+      name: "some name",
+      period: "some period",
+      price: "120.5",
+      position: 1
+    }
+    @update_attrs %{
+      description: "some updated description",
+      name: "some updated name",
+      period: "some updated period",
+      price: "456.7",
+      position: 2
+    }
     @invalid_attrs %{description: nil, name: nil, period: nil, price: nil, position: nil}
 
     def pricing_plan_fixture(attrs \\ %{}) do
@@ -543,7 +555,10 @@ defmodule Kickstart.AccountsTest do
 
     test "update_pricing_plan/2 with valid data updates the pricing_plan" do
       pricing_plan = pricing_plan_fixture()
-      assert {:ok, %PricingPlan{} = pricing_plan} = Accounts.update_pricing_plan(pricing_plan, @update_attrs)
+
+      assert {:ok, %PricingPlan{} = pricing_plan} =
+               Accounts.update_pricing_plan(pricing_plan, @update_attrs)
+
       assert pricing_plan.description == "some updated description"
       assert pricing_plan.name == "some updated name"
       assert pricing_plan.period == "some updated period"
@@ -552,7 +567,10 @@ defmodule Kickstart.AccountsTest do
 
     test "update_pricing_plan/2 with invalid data returns error changeset" do
       pricing_plan = pricing_plan_fixture()
-      assert {:error, %Ecto.Changeset{}} = Accounts.update_pricing_plan(pricing_plan, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               Accounts.update_pricing_plan(pricing_plan, @invalid_attrs)
+
       assert pricing_plan == Accounts.get_pricing_plan!(pricing_plan.id)
     end
 

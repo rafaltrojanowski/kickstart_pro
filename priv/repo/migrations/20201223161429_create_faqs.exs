@@ -8,6 +8,5 @@ defmodule Kickstart.Repo.Migrations.CreateFaqs do
 
       timestamps()
     end
-
   end
 end

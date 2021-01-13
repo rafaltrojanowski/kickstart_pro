@@ -7,11 +7,11 @@ defmodule KickstartWeb.Admin.SubscriptionController do
 
   plug(:put_layout, {KickstartWeb.LayoutView, "torch.html"})
 
-
   def index(conn, params) do
     case Accounts.paginate_subscriptions(params) do
       {:ok, assigns} ->
         render(conn, "index.html", assigns)
+
       error ->
         conn
         |> put_flash(:error, "There was an error rendering Subscriptions. #{inspect(error)}")
@@ -30,14 +30,17 @@ defmodule KickstartWeb.Admin.SubscriptionController do
         conn
         |> put_flash(:info, "Subscription created successfully.")
         |> redirect(to: Routes.admin_subscription_path(conn, :show, subscription))
+
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
   end
 
   def show(conn, %{"id" => id}) do
-    subscription = Accounts.get_subscription!(id)
-    |> Repo.preload([:user, :pricing_plan])
+    subscription =
+      Accounts.get_subscription!(id)
+      |> Repo.preload([:user, :pricing_plan])
+
     render(conn, "show.html", subscription: subscription)
   end
 
@@ -55,6 +58,7 @@ defmodule KickstartWeb.Admin.SubscriptionController do
         conn
         |> put_flash(:info, "Subscription updated successfully.")
         |> redirect(to: Routes.admin_subscription_path(conn, :show, subscription))
+
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "edit.html", subscription: subscription, changeset: changeset)
     end

@@ -4,8 +4,18 @@ defmodule KickstartWeb.Admin.SubscriptionControllerTest do
   alias Kickstart.Accounts
   import Kickstart.AccountsFixtures
 
-  @create_attrs %{end_at: ~N[2010-04-17 14:00:00], payment_response: %{}, start_at: ~N[2010-04-17 14:00:00], status: "some status"}
-  @update_attrs %{end_at: ~N[2011-05-18 15:01:01], payment_response: %{}, start_at: ~N[2011-05-18 15:01:01], status: "some updated status"}
+  @create_attrs %{
+    end_at: ~N[2010-04-17 14:00:00],
+    payment_response: %{},
+    start_at: ~N[2010-04-17 14:00:00],
+    status: "some status"
+  }
+  @update_attrs %{
+    end_at: ~N[2011-05-18 15:01:01],
+    payment_response: %{},
+    start_at: ~N[2011-05-18 15:01:01],
+    status: "some updated status"
+  }
   @invalid_attrs %{end_at: nil, payment_response: nil, start_at: nil, status: nil}
 
   setup do
@@ -20,9 +30,10 @@ defmodule KickstartWeb.Admin.SubscriptionControllerTest do
   describe "index" do
     test "lists all subscriptions", %{conn: conn, admin: admin} do
       conn =
-      build_conn()
-      |> log_in_user(admin)
-      |> get(Routes.admin_subscription_path(conn, :index))
+        build_conn()
+        |> log_in_user(admin)
+        |> get(Routes.admin_subscription_path(conn, :index))
+
       assert html_response(conn, 200) =~ "Subscriptions"
     end
   end
@@ -82,12 +93,14 @@ defmodule KickstartWeb.Admin.SubscriptionControllerTest do
 
     test "deletes chosen subscription", %{conn: conn, subscription: subscription, admin: admin} do
       conn =
-      build_conn()
-      |> log_in_user(admin)
-      |> delete(Routes.admin_subscription_path(conn, :delete, subscription))
+        build_conn()
+        |> log_in_user(admin)
+        |> delete(Routes.admin_subscription_path(conn, :delete, subscription))
+
       assert redirected_to(conn) == Routes.admin_subscription_path(conn, :index)
+
       assert_error_sent 404, fn ->
-        get conn, Routes.admin_subscription_path(conn, :show, subscription)
+        get(conn, Routes.admin_subscription_path(conn, :show, subscription))
       end
     end
   end

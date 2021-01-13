@@ -8,6 +8,7 @@ defmodule KickstartWeb.PricingPlanFormLive do
 
   def mount(_params, %{"action" => action, "csrf_token" => csrf_token} = session, socket) do
     pricing_plan = get_pricing_plan(session)
+
     changeset =
       Accounts.change_pricing_plan(pricing_plan)
       |> Ecto.Changeset.put_embed(:features, pricing_plan.features)
@@ -37,7 +38,8 @@ defmodule KickstartWeb.PricingPlanFormLive do
   end
 
   def handle_event("add-feature", _, socket) do
-    vars = Map.get(socket.assigns.changeset.changes, :features, socket.assigns.pricing_plan.features)
+    vars =
+      Map.get(socket.assigns.changeset.changes, :features, socket.assigns.pricing_plan.features)
 
     features =
       vars
@@ -69,5 +71,5 @@ defmodule KickstartWeb.PricingPlanFormLive do
   def get_pricing_plan(%{"id" => id} = _pricing_plan_params), do: Accounts.get_pricing_plan!(id)
   def get_pricing_plan(_pricing_plan_params), do: %PricingPlan{features: []}
 
-  defp get_temp_id, do: :crypto.strong_rand_bytes(5) |> Base.url_encode64 |> binary_part(0, 5)
+  defp get_temp_id, do: :crypto.strong_rand_bytes(5) |> Base.url_encode64() |> binary_part(0, 5)
 end

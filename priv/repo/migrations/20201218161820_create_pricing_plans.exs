@@ -10,6 +10,5 @@ defmodule Kickstart.Repo.Migrations.CreatePricingPlans do
 
       timestamps()
     end
-
   end
 end

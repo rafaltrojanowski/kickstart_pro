@@ -39,13 +39,16 @@ defmodule Kickstart.Accounts.Feature do
 
   def changeset(feature, attrs) do
     feature
-    |> Map.put(:temp_id, (feature.temp_id || attrs["temp_id"])) # So its persisted
-    |> cast(attrs, [:title, :delete]) # Add delete here
+    # So its persisted
+    |> Map.put(:temp_id, feature.temp_id || attrs["temp_id"])
+    # Add delete here
+    |> cast(attrs, [:title, :delete])
     |> validate_required([:title])
     |> maybe_mark_for_deletion()
   end
 
   defp maybe_mark_for_deletion(%{data: %{id: nil}} = changeset), do: changeset
+
   defp maybe_mark_for_deletion(changeset) do
     if get_change(changeset, :delete) do
       %{changeset | action: :delete}

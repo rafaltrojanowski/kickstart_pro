@@ -4,14 +4,13 @@ defmodule KickstartWeb.Admin.FaqController do
   alias Kickstart.Site
   alias Kickstart.Site.Faq
 
-
   plug(:put_layout, {KickstartWeb.LayoutView, "torch.html"})
-
 
   def index(conn, params) do
     case Site.paginate_faqs(params) do
       {:ok, assigns} ->
         render(conn, "index.html", assigns)
+
       error ->
         conn
         |> put_flash(:error, "There was an error rendering Faqs. #{inspect(error)}")
@@ -30,6 +29,7 @@ defmodule KickstartWeb.Admin.FaqController do
         conn
         |> put_flash(:info, "Faq created successfully.")
         |> redirect(to: Routes.admin_faq_path(conn, :show, faq))
+
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
@@ -54,6 +54,7 @@ defmodule KickstartWeb.Admin.FaqController do
         conn
         |> put_flash(:info, "Faq updated successfully.")
         |> redirect(to: Routes.admin_faq_path(conn, :show, faq))
+
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "edit.html", faq: faq, changeset: changeset)
     end

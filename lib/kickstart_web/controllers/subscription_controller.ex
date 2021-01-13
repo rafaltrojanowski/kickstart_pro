@@ -13,8 +13,16 @@ defmodule KickstartWeb.SubscriptionController do
   import Ecto.Query
 
   def new(conn, %{"pricing_plan_id" => id}) do
-    data  = %{}
-    types = %{first_name: :string, last_name: :string, number: :string, year: :string, month: :string, verification_code: :string}
+    data = %{}
+
+    types = %{
+      first_name: :string,
+      last_name: :string,
+      number: :string,
+      year: :string,
+      month: :string,
+      verification_code: :string
+    }
 
     changeset =
       {data, types}
@@ -27,19 +35,31 @@ defmodule KickstartWeb.SubscriptionController do
 
   def create(conn, %{"subscription" => subscription_params}) do
     user_id = conn.assigns.current_user.id
-    time_now = NaiveDateTime.utc_now
+    time_now = NaiveDateTime.utc_now()
 
-    query = from s in "subscriptions",
-      where: s.user_id == ^user_id and s.status == "paid" and s.start_at < ^time_now and (s.end_at > ^time_now or is_nil(s.end_at)),
-      select: [s.id]
+    query =
+      from s in "subscriptions",
+        where:
+          s.user_id == ^user_id and s.status == "paid" and s.start_at < ^time_now and
+            (s.end_at > ^time_now or is_nil(s.end_at)),
+        select: [s.id]
+
     current_subscription = Repo.all(query)
 
     if !Enum.empty?(current_subscription) do
       render(conn, "error.html", error: %{"message" => "Subscription already exists."})
     else
       pricing_plan = Accounts.get_pricing_plan!(subscription_params["pricing_plan_id"])
-      data  = %{}
-      types = %{first_name: :string, last_name: :string, number: :string, year: :string, month: :string, verification_code: :string}
+      data = %{}
+
+      types = %{
+        first_name: :string,
+        last_name: :string,
+        number: :string,
+        year: :string,
+        month: :string,
+        verification_code: :string
+      }
 
       changeset =
         {data, types}
@@ -51,10 +71,11 @@ defmodule KickstartWeb.SubscriptionController do
           first_name: subscription_params["first_name"],
           last_name: subscription_params["last_name"],
           number: subscription_params["number"],
-          year: subscription_params["year"] |> String.to_integer,
-          month: subscription_params["month"] |> String.to_integer,
-          verification_code:  subscription_params["verification_code"]
+          year: subscription_params["year"] |> String.to_integer(),
+          month: subscription_params["month"] |> String.to_integer(),
+          verification_code: subscription_params["verification_code"]
         }
+
         amount = Money.new(pricing_plan.price, :USD)
         response = Gringotts.purchase(Stripe, amount, card)
 
@@ -62,12 +83,16 @@ defmodule KickstartWeb.SubscriptionController do
           response["created"] ->
             create_subscription(conn.assigns.current_user, pricing_plan, response)
             render(conn, "success.html", response: response)
+
           response["error"] ->
             IO.inspect(response)
             render(conn, "error.html", error: response["error"])
         end
       else
-        render(conn, "new.html", pricing_plan: pricing_plan, changeset: %{changeset | action: :insert})
+        render(conn, "new.html",
+          pricing_plan: pricing_plan,
+          changeset: %{changeset | action: :insert}
+        )
       end
     end
   end
@@ -82,15 +107,19 @@ defmodule KickstartWeb.SubscriptionController do
   end
 
   defp create_subscription(user, pricing_plan, data) do
-    time_now = NaiveDateTime.utc_now
+    time_now = NaiveDateTime.utc_now()
     start_at = time_now |> NaiveDateTime.truncate(:second)
-    end_at = case pricing_plan.period do
-      "month" ->
-        Timex.shift(time_now, months: 1) |> NaiveDateTime.truncate(:second)
-      "year" ->
-        Timex.shift(time_now, years: 1) |> NaiveDateTime.truncate(:second)
-      "one-time" ->
-        nil
+
+    end_at =
+      case pricing_plan.period do
+        "month" ->
+          Timex.shift(time_now, months: 1) |> NaiveDateTime.truncate(:second)
+
+        "year" ->
+          Timex.shift(time_now, years: 1) |> NaiveDateTime.truncate(:second)
+
+        "one-time" ->
+          nil
       end
 
     %Subscription{
@@ -99,7 +128,8 @@ defmodule KickstartWeb.SubscriptionController do
       start_at: start_at,
       end_at: end_at,
       status: "paid",
-      payment_response: data}
+      payment_response: data
+    }
     |> Repo.insert()
   end
 end

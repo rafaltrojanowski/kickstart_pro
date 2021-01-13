@@ -8,15 +8,18 @@ defmodule KickstartWeb.PostController do
   import Ecto.Query
 
   def index(conn, _params) do
-    posts = Blog.list_posts()
-    |> Repo.preload(:user)
+    posts =
+      Blog.list_posts()
+      |> Repo.preload(:user)
+
     render(conn, "index.html", posts: posts)
   end
 
   def show(conn, %{"slug" => slug}) do
-    post = Blog.get_post!(slug)
-    |> Repo.preload(:user)
-    |> inc_page_views()
+    post =
+      Blog.get_post!(slug)
+      |> Repo.preload(:user)
+      |> inc_page_views()
 
     render(conn, "show.html", post: post)
   end

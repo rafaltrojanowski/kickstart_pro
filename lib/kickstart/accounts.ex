@@ -59,13 +59,13 @@ defmodule Kickstart.Accounts do
 
   ## Examples
 
-      iex> update_user(user, %{field: new_value})
-      {:ok, %User{}}
+    iex> update_user(user, %{field: new_value})
+    {:ok, %User{}}
 
-      iex> update_user(user, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
+    iex> update_user(user, %{field: bad_value})
+    {:error, %Ecto.Changeset{}}
 
-    """
+  """
   def update_user(%User{} = user, attrs) do
     user
     |> User.changeset(attrs)
@@ -688,20 +688,20 @@ defmodule Kickstart.Accounts do
     {:ok, sort_direction} = Map.fetch(params, "sort_direction")
     {:ok, sort_field} = Map.fetch(params, "sort_field")
 
-    with {:ok, filter} <- Filtrex.parse_params(filter_config(:pricing_plans), params["pricing_plan"] || %{}),
-        %Scrivener.Page{} = page <- do_paginate_pricing_plans(filter, params) do
+    with {:ok, filter} <-
+           Filtrex.parse_params(filter_config(:pricing_plans), params["pricing_plan"] || %{}),
+         %Scrivener.Page{} = page <- do_paginate_pricing_plans(filter, params) do
       {:ok,
-        %{
-          pricing_plans: page.entries,
-          page_number: page.page_number,
-          page_size: page.page_size,
-          total_pages: page.total_pages,
-          total_entries: page.total_entries,
-          distance: @pagination_distance,
-          sort_field: sort_field,
-          sort_direction: sort_direction
-        }
-      }
+       %{
+         pricing_plans: page.entries,
+         page_number: page.page_number,
+         page_size: page.page_size,
+         total_pages: page.total_pages,
+         total_entries: page.total_entries,
+         distance: @pagination_distance,
+         sort_field: sort_field,
+         sort_direction: sort_direction
+       }}
     else
       {:error, error} -> {:error, error}
       error -> {:error, error}
@@ -736,20 +736,20 @@ defmodule Kickstart.Accounts do
     {:ok, sort_direction} = Map.fetch(params, "sort_direction")
     {:ok, sort_field} = Map.fetch(params, "sort_field")
 
-    with {:ok, filter} <- Filtrex.parse_params(filter_config(:subscriptions), params["subscription"] || %{}),
-        %Scrivener.Page{} = page <- do_paginate_subscriptions(filter, params) do
+    with {:ok, filter} <-
+           Filtrex.parse_params(filter_config(:subscriptions), params["subscription"] || %{}),
+         %Scrivener.Page{} = page <- do_paginate_subscriptions(filter, params) do
       {:ok,
-        %{
-          subscriptions: page.entries,
-          page_number: page.page_number,
-          page_size: page.page_size,
-          total_pages: page.total_pages,
-          total_entries: page.total_entries,
-          distance: @pagination_distance,
-          sort_field: sort_field,
-          sort_direction: sort_direction
-        }
-      }
+       %{
+         subscriptions: page.entries,
+         page_number: page.page_number,
+         page_size: page.page_size,
+         total_pages: page.total_pages,
+         total_entries: page.total_entries,
+         distance: @pagination_distance,
+         sort_field: sort_field,
+         sort_direction: sort_direction
+       }}
     else
       {:error, error} -> {:error, error}
       error -> {:error, error}
@@ -766,7 +766,7 @@ defmodule Kickstart.Accounts do
 
   defp filter_config(:pricing_plans) do
     defconfig do
-      text :name
+      text(:name)
     end
   end
 
@@ -779,9 +779,9 @@ defmodule Kickstart.Accounts do
 
   defp filter_config(:subscriptions) do
     defconfig do
-      date :start_at
-      date :end_at
-      text :status
+      date(:start_at)
+      date(:end_at)
+      text(:status)
     end
   end
 end

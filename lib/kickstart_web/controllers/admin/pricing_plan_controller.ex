@@ -6,11 +6,11 @@ defmodule KickstartWeb.Admin.PricingPlanController do
 
   plug(:put_layout, {KickstartWeb.LayoutView, "torch.html"})
 
-
   def index(conn, params) do
     case Accounts.paginate_pricing_plans(params) do
       {:ok, assigns} ->
         render(conn, "index.html", assigns)
+
       error ->
         conn
         |> put_flash(:error, "There was an error rendering Pricing plans. #{inspect(error)}")
@@ -29,6 +29,7 @@ defmodule KickstartWeb.Admin.PricingPlanController do
         conn
         |> put_flash(:info, "Pricing plan created successfully.")
         |> redirect(to: Routes.admin_pricing_plan_path(conn, :show, pricing_plan))
+
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
@@ -53,6 +54,7 @@ defmodule KickstartWeb.Admin.PricingPlanController do
         conn
         |> put_flash(:info, "Pricing plan updated successfully.")
         |> redirect(to: Routes.admin_pricing_plan_path(conn, :show, pricing_plan))
+
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "edit.html", pricing_plan: pricing_plan, changeset: changeset)
     end

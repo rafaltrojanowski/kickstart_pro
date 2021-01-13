@@ -118,19 +118,18 @@ defmodule Kickstart.Site do
     {:ok, sort_field} = Map.fetch(params, "sort_field")
 
     with {:ok, filter} <- Filtrex.parse_params(filter_config(:faqs), params["faq"] || %{}),
-        %Scrivener.Page{} = page <- do_paginate_faqs(filter, params) do
+         %Scrivener.Page{} = page <- do_paginate_faqs(filter, params) do
       {:ok,
-        %{
-          faqs: page.entries,
-          page_number: page.page_number,
-          page_size: page.page_size,
-          total_pages: page.total_pages,
-          total_entries: page.total_entries,
-          distance: @pagination_distance,
-          sort_field: sort_field,
-          sort_direction: sort_direction
-        }
-      }
+       %{
+         faqs: page.entries,
+         page_number: page.page_number,
+         page_size: page.page_size,
+         total_pages: page.total_pages,
+         total_entries: page.total_entries,
+         distance: @pagination_distance,
+         sort_field: sort_field,
+         sort_direction: sort_direction
+       }}
     else
       {:error, error} -> {:error, error}
       error -> {:error, error}
@@ -146,8 +145,8 @@ defmodule Kickstart.Site do
 
   defp filter_config(:faqs) do
     defconfig do
-      text :question
-      text :answer
+      text(:question)
+      text(:answer)
     end
   end
 end

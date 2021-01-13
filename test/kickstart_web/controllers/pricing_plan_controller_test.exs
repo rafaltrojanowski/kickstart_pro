@@ -3,8 +3,20 @@ defmodule KickstartWeb.PricingPlanControllerTest do
 
   alias Kickstart.Accounts
 
-  @create_attrs %{description: "some description", name: "some name", period: "some period", price: "120.5", position: 1}
-  @update_attrs %{description: "some updated description", name: "some updated name", period: "some updated period", price: "456.7", position: 2}
+  @create_attrs %{
+    description: "some description",
+    name: "some name",
+    period: "some period",
+    price: "120.5",
+    position: 1
+  }
+  @update_attrs %{
+    description: "some updated description",
+    name: "some updated name",
+    period: "some updated period",
+    price: "456.7",
+    position: 2
+  }
   @invalid_attrs %{description: nil, name: nil, period: nil, price: nil, position: nil}
 
   def fixture(:pricing_plan) do
