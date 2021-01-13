@@ -9,7 +9,14 @@ defmodule KickstartWeb.Admin.PricingPlanControllerTest do
     name: "some name",
     period: "some period",
     price: "120.5",
-    position: 1
+    position: 1,
+    features: %{
+      "0" => %{
+        "delete" => nil,
+        "id" => "900ab539-57b0-4750-aef7-3896b4542038",
+        "title" => "Priority when suggesting new episodes"
+      }
+    }
   }
   @update_attrs %{
     description: "some updated description",
