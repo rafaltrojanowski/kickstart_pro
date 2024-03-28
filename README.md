@@ -1,4 +1,4 @@
-👉 I've also built Phoenix Kickstart Pro which is a version of Kickstart that includes payments with Stripe, Subscriptions, Pricing Plans, and much more.
+👉 I've built Phoenix Kickstart Pro which is a version of [Kickstart](https://github.com/rafaltrojanowski/kickstart) that includes payments with Stripe, Subscriptions, Pricing Plans, and much more.
 
 Want to see how it works? Check out [the Kickstart walkthrough video](https://www.youtube.com/watch?v=Scl0UAd4c1E)
 
