@@ -1,3 +1,9 @@
+### 2021-01-13
+* Pricing Plans
+* Stripe Payments
+* Subscriptions
+* Faq
+
 ### 2020-12-27
 
 * Fixed failing tests
