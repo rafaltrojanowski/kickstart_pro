@@ -2,8 +2,6 @@
 
 Want to see how it works? Check out [the Kickstart walkthrough video](https://www.youtube.com/watch?v=Scl0UAd4c1E)
 
-Live Demo: https://kickstart-pro.herokuapp.com/
-
 # Phoenix Kickstart SaaS Template
 
 All your Phoenix apps should start with set of default features. It's like Jumpstart Rails, for Phoenix.
